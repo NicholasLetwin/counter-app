@@ -10,14 +10,33 @@ export class counterApp extends DDDSuper(LitElement) {
   constructor() {
     super();
     this.title = "";
+    this.counter = 0;
+    this.min = 0;
+    this.max = 100;
   }
 
   static get properties() {
     return {
       title: { type: String },
+      counter: { type: Number },
+      min: { type: Number },
+      max: { type: Number },
     };
   }
 
+  increment() {
+    if (this.counter < this.max) {
+      this.counter++;
+    }
+  }
+
+  decrement() {
+    if (this.counter > this.min) {
+      this.counter--;
+    }
+  }
+
+  
   static get styles() {
     return [super.styles,
     css`
@@ -39,12 +58,33 @@ export class counterApp extends DDDSuper(LitElement) {
     `];
   }
 
+  updateCounterColor() {
+    const counterElement = this.shadowRoot.querySelector('.counter');
+    if (this.counter >= 18 && this.counter < 21) {
+      counterElement.style.color = "orange";
+    } else if (this.counter >= 21) {
+      counterElement.style.color = "red";
+    } else {
+      counterElement.style.color = ""; 
+    }
+  }
+
+
   render() {
     return html`
-<div class="wrapper">
-  <div>${this.title}</div>
+<div class="counter">${this.counter}</div>
+  <div class="buttons">
+    <button
+    @click="${this.decrement}"
+    ?disabled="${this.counter <= this.min}">-</button>
+
+    <button
+      @click="${this.increment}" 
+        ?disabled="${this.counter >= this.max}">+</button>
+</div>
+<confetti-container id="confetti"></confetti-container>
   <slot></slot>
-</div>`;
+    `;
   }
 
   /**
