@@ -42,19 +42,68 @@ export class counterApp extends DDDSuper(LitElement) {
     css`
       :host {
         display: block;
-        color: var(--ddd-theme-primary);
-        background-color: var(--ddd-theme-accent);
-        font-family: var(--ddd-font-navigation);
-        font-size: var(--counter-app-font-size, var(--ddd-font-size-s));
+      font-family: var(--counter-app-font-family, sans-serif);
+      color: var(--ddd-theme-primary);
       }
-      .wrapper {
-        margin: var(--ddd-spacing-2);
-        padding: var(--ddd-spacing-4);
+      .counter {
+      font-size: 48px;
+      margin-bottom: 16px;
+      text-align: center;
       }
+      .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+
+      .button-64 {
+      align-items: center;
+      background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+      border: 0;
+      border-radius: 8px;
+      box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+      color: #FFFFFF;
+      display: flex;
+      font-family: Phantomsans, sans-serif;
+      font-size: 20px;
+      justify-content: center;
+      line-height: 1em;
+      min-width: 140px;
+      padding: 3px;
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .button-64:active, .button-64:hover {
+      outline: 0;
+    }
+
+    .button-64 span {
+      background-color: rgb(5, 6, 45);
+      padding: 16px 24px;
+      border-radius: 6px;
+      transition: 300ms;
+      width: 100%;
+      height: 100%;
+    }
+
+    .button-64:hover span {
+      background: none;
+    }
+
+    @media (min-width: 768px) {
+      .button-64 {
+        font-size: 24px;
+        min-width: 196px;
+      }
+    }
       div {
         padding: 0;
         margin: 0;
       }
+      
+    
     `];
   }
 
@@ -87,17 +136,15 @@ export class counterApp extends DDDSuper(LitElement) {
 
   render() {
     return html`
-<div class="counter">${this.counter}</div>
-  <div class="buttons">
-    <button
-    @click="${this.decrement}"
-    ?disabled="${this.counter <= this.min}">-</button>
-
-    <button
-      @click="${this.increment}" 
-        ?disabled="${this.counter >= this.max}">+</button>
-</div>
-<confetti-container id="confetti"></confetti-container>
+ <div class="counter">${this.counter}</div>
+    <div class="buttons">
+      <button class="button-64" @click="${this.decrement}" ?disabled="${this.counter <= this.min}">
+        <span class="text">-</span>
+      </button>
+      <button class="button-64" @click="${this.increment}" ?disabled="${this.counter >= this.max}">
+        <span class="text">+</span>
+      </button>
+    </div>
   <slot></slot>
     `;
   }
