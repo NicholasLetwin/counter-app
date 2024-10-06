@@ -12,7 +12,7 @@ export class counterApp extends DDDSuper(LitElement) {
     this.title = "";
     this.counter = 0;
     this.min = 0;
-    this.max = 100;
+    this.max = 25;
   }
 
   static get properties() {
@@ -38,89 +38,73 @@ export class counterApp extends DDDSuper(LitElement) {
 
   
   static get styles() {
-    return [super.styles,
-    css`
+    return [super.styles, css`
       :host {
         display: block;
-      font-family: var(--counter-app-font-family, sans-serif);
-      color: var(--ddd-theme-primary);
+        font-family: var(--counter-app-font-family, sans-serif);
+        color: var(--ddd-theme-primary);
       }
       .counter {
-      font-size: 48px;
-      margin-bottom: 16px;
-      text-align: center;
+        font-size: 48px;
+        margin-bottom: 16px;
+        text-align: center;
+        color: gray;
       }
       .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-
-      .button-64 {
-      align-items: center;
-      background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
-      border: 0;
-      border-radius: 8px;
-      box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-      color: #FFFFFF;
-      display: flex;
-      font-family: Phantomsans, sans-serif;
-      font-size: 20px;
-      justify-content: center;
-      line-height: 1em;
-      min-width: 140px;
-      padding: 3px;
-      cursor: pointer;
-      text-decoration: none;
-      user-select: none;
-      white-space: nowrap;
-    }
-
-    .button-64:active, .button-64:hover {
-      outline: 0;
-    }
-
-    .button-64 span {
-      background-color: rgb(5, 6, 45);
-      padding: 16px 24px;
-      border-radius: 6px;
-      transition: 300ms;
-      width: 100%;
-      height: 100%;
-    }
-
-    .button-64:hover span {
-      background: none;
-    }
-
-    @media (min-width: 768px) {
-      .button-64 {
-        font-size: 24px;
-        min-width: 196px;
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        padding: 16px;
       }
-    }
-      div {
-        padding: 0;
-        margin: 0;
+      .button-62 {
+        background: linear-gradient(to bottom right, #EF4765, #FF9A5A);
+        border: 0;
+        border-radius: 12px;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 2.5;
+        outline: transparent;
+        padding: 0 1rem;
+        text-align: center;
+        text-decoration: none;
+        transition: box-shadow .2s ease-in-out;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        white-space: nowrap;
+
       }
       
-    
+      .button-62:not([disabled]):focus {
+        box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+      }
+      .button-62:not([disabled]):hover {
+        box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+      }
+      .button-62:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
     `];
+  }
+  
+  updated(changedProperties) {
+    if (changedProperties.has('counter')) {
+      console.log(this.counter); 
+      this.updateCounterColor();
+    }
   }
 
   updateCounterColor() {
     const counterElement = this.shadowRoot.querySelector('.counter');
     if (this.counter >= 18 && this.counter < 21) {
       counterElement.style.color = "orange";
-    } else if (this.counter >= 21) {
-      counterElement.style.color = "red";
     } else {
       counterElement.style.color = ""; 
-    }
-  }
-
-  updated(changedProperties) {
-    if (changedProperties.has('counter')) {
-      // do your testing of the value and make it rain by calling makeItRain
     }
   }
 
@@ -136,16 +120,16 @@ export class counterApp extends DDDSuper(LitElement) {
 
   render() {
     return html`
- <div class="counter">${this.counter}</div>
-    <div class="buttons">
-      <button class="button-64" @click="${this.decrement}" ?disabled="${this.counter <= this.min}">
-        <span class="text">-</span>
-      </button>
-      <button class="button-64" @click="${this.increment}" ?disabled="${this.counter >= this.max}">
-        <span class="text">+</span>
-      </button>
-    </div>
-  <slot></slot>
+      <div class="counter">${this.counter}</div>
+      <div class="buttons">
+        <button class="button-62" @click="${this.decrement}" ?disabled="${this.counter <= this.min}">
+          -
+        </button>
+        <button class="button-62" @click="${this.increment}" ?disabled="${this.counter >= this.max}">
+          +
+        </button>
+      </div>
+      <slot></slot>
     `;
   }
 
