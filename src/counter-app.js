@@ -69,6 +69,21 @@ export class counterApp extends DDDSuper(LitElement) {
     }
   }
 
+  updated(changedProperties) {
+    if (changedProperties.has('counter')) {
+      // do your testing of the value and make it rain by calling makeItRain
+    }
+  }
+
+  makeItRain() {
+    import("@haxtheweb/multiple-choice/lib/confetti-container.js").then(
+      (module) => {
+        setTimeout(() => {
+          this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
+        }, 0);
+      }
+    );
+  }
 
   render() {
     return html`
