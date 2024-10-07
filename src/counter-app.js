@@ -76,7 +76,6 @@ export class counterApp extends DDDSuper(LitElement) {
         -webkit-user-select: none;
         touch-action: manipulation;
         white-space: nowrap;
-
       }
       
       .button-62:not([disabled]):focus {
@@ -96,7 +95,25 @@ export class counterApp extends DDDSuper(LitElement) {
     if (changedProperties.has('counter')) {
       console.log(this.counter); 
       this.updateCounterColor();
-    }
+    
+
+    if (changedProperties.has('counter')) {
+      if(this.counter === 21){
+        this.makeItRain();
+      }
+  }
+}
+  }
+
+
+  makeItRain() {
+    import("@haxtheweb/multiple-choice/lib/confetti-container.js").then(
+      (module) => {
+        setTimeout(() => {
+          this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
+        }, 0);
+      }
+    );
   }
 
   updateCounterColor() {
@@ -108,15 +125,8 @@ export class counterApp extends DDDSuper(LitElement) {
     }
   }
 
-  makeItRain() {
-    import("@haxtheweb/multiple-choice/lib/confetti-container.js").then(
-      (module) => {
-        setTimeout(() => {
-          this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
-        }, 0);
-      }
-    );
-  }
+
+  
 
   render() {
     return html`
@@ -132,6 +142,7 @@ export class counterApp extends DDDSuper(LitElement) {
       <slot></slot>
     `;
   }
+  
 
   /**
    * haxProperties integration via file reference
